@@ -1,4 +1,4 @@
-# 🐾 Đồ án Học máy: Phân loại Ảnh Chó và Mèo (Dogs vs. Cats)
+# 🐾 Bài tập lớn Học máy: Phân loại Ảnh Chó và Mèo (Dogs vs. Cats)
 
 
 
@@ -14,7 +14,7 @@
 
 ```text
 📦 BTL_MachineLearning
- ┣ 📂 dataset_full/          # Thư mục chứa 25.000 ảnh gốc (Không push lên Git)
+ ┣ 📂 PetImages/          # Thư mục chứa 25.000 ảnh gốc (Không push lên Git)
  ┣ 📂 minidataset/           # Tập dữ liệu đã lấy mẫu (Train: 2000, Test: 400)
  ┃ ┣ 📂 train/               # Ảnh huấn luyện (chia 2 thư mục cats/ và dogs/)
  ┃ ┗ 📂 test/                # Ảnh kiểm tra (chia 2 thư mục cats/ và dogs/)
