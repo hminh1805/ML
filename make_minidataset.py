@@ -58,7 +58,7 @@ def create_minidataset(source_dir,target_dir, num_train = 1000 , num_test = 200)
 
 create_minidataset(
     source_dir= 'PetImages',
-    target_dir= 'minidata',
+    target_dir= 'minidataset',
     num_train= 2000,
     num_test= 200,
 )
