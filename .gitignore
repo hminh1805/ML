@@ -1,0 +1,24 @@
+# 1. Bỏ qua Data (TUYỆT ĐỐI KHÔNG ĐẨY LÊN)
+dataset_full/
+minidata/
+PetImages/
+/tmp/
+
+# 2. Bỏ qua các file Trọng số/Đặc trưng quá nặng
+*.npy
+*.h5
+*.pkl
+*.model
+
+# 3. Bỏ qua môi trường ảo (Virtual Environment)
+venv/
+env/
+.env
+
+# 4. Bỏ qua file rác của Hệ điều hành & IDE
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.vscode/
+.ipynb_checkpoints/

@@ -1,0 +1,11 @@
+# Thư viện tính toán và xử lý mảng
+numpy==1.26.4
+
+# Thư viện xử lý ảnh
+opencv-python==4.9.0.80
+
+# Thư viện vẽ biểu đồ (cho phần EDA và Báo cáo)
+matplotlib==3.8.3
+
+# Thư viện Machine Learning (gọi PCA, chuẩn hóa dữ liệu, chia tập train/test)
+scikit-learn==1.4.1.post1
