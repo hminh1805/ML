@@ -3,10 +3,10 @@
 
 
 ## 🎯 Mục tiêu dự án
-1. **Tiền xử lý & EDA:** Hiểu rõ bản chất dữ liệu, kích thước, và phân phối nhãn[cite: 252, 253].
-2. **Trích xuất đặc trưng:** Ứng dụng mô hình Pretrained (ResNet/VGG) để chuyển đổi ảnh thô thành vector đặc trưng[cite: 293, 294, 295, 296, 297].
-3. **Huấn luyện mô hình Cổ điển:** Tự triển khai/tinh chỉnh các thuật toán phân lớp tuyến tính (SVM, Logistic Regression)[cite: 298].
-4. **Đánh giá & So sánh:** Đánh giá hiệu năng các mô hình thông qua F1-score, Precision, Recall và ma trận nhầm lẫn[cite: 230].
+1. **Tiền xử lý & EDA:** Hiểu rõ bản chất dữ liệu, kích thước, và phân phối nhãn.
+2. **Trích xuất đặc trưng:** Ứng dụng mô hình Pretrained (ResNet/VGG) để chuyển đổi ảnh thô thành vector đặc trưng.
+3. **Huấn luyện mô hình Cổ điển:** Tự triển khai/tinh chỉnh các thuật toán phân lớp tuyến tính (SVM, Logistic Regression).
+4. **Đánh giá & So sánh:** Đánh giá hiệu năng các mô hình thông qua F1-score, Precision, Recall và ma trận nhầm lẫn.
 
 ---
 
@@ -18,8 +18,8 @@
  ┣ 📂 minidataset/           # Tập dữ liệu đã lấy mẫu (Train: 2000, Test: 400)
  ┃ ┣ 📂 train/               # Ảnh huấn luyện (chia 2 thư mục cats/ và dogs/)
  ┃ ┗ 📂 test/                # Ảnh kiểm tra (chia 2 thư mục cats/ và dogs/)
- ┣ 📜 make_minidata.py       # Script tự động lấy mẫu ngẫu nhiên/cân bằng
- ┣ 📜 eda.py                 # Script Phân tích dữ liệu khám phá (Xuất biểu đồ)
+ ┣ 📜 make_minidataset.py       # Script tự động lấy mẫu ngẫu nhiên/cân bằng
+ ┣ 📜 checkdata.py                 # Script Phân tích dữ liệu khám phá (Xuất biểu đồ)
  ┣ 📜 requirements.txt       # Danh sách thư viện cần thiết
  ┣ 📜 .gitignore             # File cấu hình Git
  ┗ 📜 README.md              # Tài liệu hướng dẫn dự án
@@ -51,7 +51,7 @@ Dự án sử dụng bộ dữ liệu [Kaggle Dogs vs. Cats](https://www.kaggle.
 2. Chạy script lấy mẫu để tạo ra tập `minidataset` cân bằng (tốc độ train nhanh hơn, tránh thiên vị):
 
 ```bash
-python make_minidata.py
+python make_minidataset.py
 ```
 *Lưu ý: Mặc định script sẽ lấy 1000 ảnh Train và 200 ảnh Test cho mỗi nhãn.*
 
@@ -59,12 +59,12 @@ python make_minidata.py
 Để kiểm tra phân phối dữ liệu, kích thước trung bình của ảnh và xuất các biểu đồ trực quan, chạy lệnh:
 
 ```bash
-python eda.py
+python checkdata.py
 ```
 Script sẽ tự động tạo ra 3 file báo cáo hình ảnh:
-- `eda_distribution.png`: Biểu đồ cột thể hiện sự cân bằng nhãn.
-- `eda_dimensions.png`: Biểu đồ phân tán (scatter) kích thước các ảnh đầu vào.
-- `eda_samples.png`: Lưới hình ảnh trực quan hóa mẫu dữ liệu.
+- `pt_distribution.png`: Biểu đồ cột thể hiện sự cân bằng nhãn.
+- `pt_dimensions.png`: Biểu đồ phân tán (scatter) kích thước các ảnh đầu vào.
+- `pt_samples.png`: Lưới hình ảnh trực quan hóa mẫu dữ liệu.
 
 ---
 
