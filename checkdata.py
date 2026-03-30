@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Đường dẫn tới thư mục minidataset mà ông vừa tạo
+# Đường dẫn tới thư mục minidataset 
 DATASET_DIR = "minidataset"
 
 def run_pt():
@@ -44,7 +44,7 @@ def run_pt():
     # ==========================================
     print("\n2. KHẢO SÁT KÍCH THƯỚC ẢNH (Đang quét tập Train...):")
     train_cat_dir = os.path.join(DATASET_DIR, "train", "cats")
-    sample_images = os.listdir(train_cat_dir)[:500] # Lấy thử 500 tấm để đo cho lẹ
+    sample_images = os.listdir(train_cat_dir)[:500] 
     
     heights = []
     widths = []
@@ -96,5 +96,3 @@ def run_pt():
     print("-> Đã lưu ảnh mẫu vào file 'pt_samples.png'\n")
     print("HOÀN TẤT PHÂN TÍCH!")
 
-if __name__ == "__main__":
-    run_pt()
