@@ -1,64 +1,69 @@
-import os 
+import os
 import random
-import shutil
+import numpy as np
+import json
 
-def create_minidataset(source_dir,target_dir, num_train = 1000 , num_test = 200):
-    print('đang tạo mini dataset')
-    # xóa thư mục mini cũ nếu có
-    if os.path.exists(target_dir):
-        shutil.rmtree(target_dir)
-        
-    #tạo thư mục mini mới
-    dirs_to_make = [
-        f"{target_dir}/train/cats", f"{target_dir}/train/dogs",
-        f"{target_dir}/test/cats", f"{target_dir}/test/dogs"
-    ]
-    for d in dirs_to_make:
-        os.makedirs(d,exist_ok= True)
-        
-    #lấy đường dẫn folder gốc (2 folder)
+def generate_dataset_indices(source_dir, save_dir='data_splits', mode='mini', 
+                             num_train=4000, num_valid=1000, num_test=1000):
+    """
+    Hàm chia dataset chung cho cả mini và full.
+    mode: Tiền tố để đặt tên file (ví dụ: 'mini' hoặc 'full')
+    """
+    print(f"Đang tạo bản đồ index cho {mode.upper()} dataset...")
+    os.makedirs(save_dir, exist_ok=True)
+    
     cat_source = os.path.join(source_dir, 'Cat')
     dog_source = os.path.join(source_dir, 'Dog')
     
-    #đọc dữ liệu
-    cats = [f for f in os.listdir(cat_source) ]
-    dogs = [f for f in os.listdir(dog_source) ]
+    cats = [(os.path.join('Cat', f), 0) for f in os.listdir(cat_source) if f.endswith(('.jpg', '.png'))]
+    dogs = [(os.path.join('Dog', f), 1) for f in os.listdir(dog_source) if f.endswith(('.jpg', '.png'))]
     
-    #shuffle
-    random.seed(42)
+    random.seed(42) 
     random.shuffle(cats)
     random.shuffle(dogs)
     
-    #lấy train và test
-    train_cats = cats[:num_train]
-    train_dogs = dogs[:num_train]
-    test_cats = cats[num_train:num_test + num_train]
-    test_dogs = dogs[num_train:num_test + num_train]
+    # Chia đều số lượng yêu cầu cho 2 class (Mèo / Chó)
+    c_train, d_train = int(num_train // 2), int(num_train // 2)
+    c_val, d_val = int(num_valid // 2), int(num_valid // 2)
+    c_test, d_test = int(num_test // 2), int(num_test // 2)
     
-    print(f"Đang copy {num_train} ảnh Train và {num_test} ảnh Test cho mỗi loài...")
+    train_data = cats[:c_train] + dogs[:d_train]
     
-    def copy_files(file_list , src_folder, dest_folder):
-        for file_name in file_list:
-            src_path = os.path.join(src_folder, file_name)
-            dst_path = os.path.join(dest_folder, file_name)
-            try:
-                shutil.copyfile(src_path, dst_path)
-            except Exception as e:
-                pass # Bỏ qua nếu có ảnh bị lỗi không copy được
+    valid_data = (cats[c_train : c_train + c_val] + 
+                  dogs[d_train : d_train + d_val])
+                  
+    test_data = (cats[c_train + c_val : c_train + c_val + c_test] + 
+                 dogs[d_train + d_val : d_train + d_val + d_test])
+                 
+    dataset_splits = {'train': train_data, 'valid': valid_data, 'test': test_data}
+    
+    print(f"[{mode.upper()}] Đã lấy: {len(train_data)} train, {len(valid_data)} valid, {len(test_data)} test")
 
-    #copy từ thư mục gốc sang minidataset
-    copy_files(train_cats, cat_source, f"{target_dir}/train/cats")
-    copy_files(test_cats, cat_source, f"{target_dir}/test/cats")
-    
-    copy_files(train_dogs, dog_source, f"{target_dir}/train/dogs")
-    copy_files(test_dogs, dog_source, f"{target_dir}/test/dogs")
+    # Xáo trộn lại từng tập
+    for split_name in dataset_splits.keys():
+        random.shuffle(dataset_splits[split_name])
 
-    print(f"Đã tạo xong minidataset tại thư mục: {target_dir}!")
-    
+    # Lưu ra file JSON
+    json_path = os.path.join(save_dir, f'{mode}_dataset.json')
+    with open(json_path, 'w') as f:
+        json.dump(dataset_splits, f, indent=4)
+        
+    print(f"-> Đã lưu xong tại: {json_path}\n")
 
-create_minidataset(
-    source_dir= 'PetImages',
-    target_dir= 'minidataset',
-    num_train= 2000,
-    num_test= 200,
-)
+# ==========================================
+# CÁCH CHẠY KHI DEBUG (Tạo bản mini 400-100-100)
+# ==========================================
+# generate_dataset_indices(
+#     source_dir='PetImages', 
+#     mode='mini', 
+#     num_train=400, num_valid=100, num_test=100
+# )
+
+# ==========================================
+# CÁCH CHẠY KHI ĐEM LÊN COLAB TRAIN THẬT (16k-4k-4k)
+# ==========================================
+# generate_dataset_indices(
+#     source_dir='PetImages', 
+#     mode='full', 
+#     num_train=16000, num_valid=4000, num_test=4000
+# )
