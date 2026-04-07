@@ -53,3 +53,6 @@ def run_hog():
     np.save('label_test.npy', label_test_hog)
 
     print("\n💾 Đã lưu xong các file .npy gốc (Chưa qua PCA)!")
+
+if __name__ == "__main__":
+    run_hog()
