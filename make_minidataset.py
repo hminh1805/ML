@@ -53,11 +53,11 @@ def generate_dataset_indices(source_dir, save_dir='data_splits', mode='mini',
 # ==========================================
 # CÁCH CHẠY KHI DEBUG (Tạo bản mini 400-100-100)
 # ==========================================
-# generate_dataset_indices(
-#     source_dir='PetImages', 
-#     mode='mini', 
-#     num_train=400, num_valid=100, num_test=100
-# )
+generate_dataset_indices(
+    source_dir='PetImages', 
+    mode='mini', 
+    num_train=4000, num_valid=1000, num_test=1000
+)
 
 # ==========================================
 # CÁCH CHẠY KHI ĐEM LÊN COLAB TRAIN THẬT (16k-4k-4k)
