@@ -67,8 +67,8 @@ class MyDecisionTree:
 
         # --- BƯỚC 3: TÌM NHÁT CHÉM TỐT NHẤT ---
         # Gọi hàm _best_split để tìm ra Cột tốt nhất và Ngưỡng tốt nhất
-        #best_feat, best_thresh = self.best_split(X, y, feat_idxs)
-        best_feat, best_thresh = self.best_split_V2(X, y, feat_idxs)
+        best_feat, best_thresh = self.best_split(X, y, feat_idxs)
+        # best_feat, best_thresh = self.best_split_V2(X, y, feat_idxs)
         
         if best_feat is None:
             most_common_label = Counter(y).most_common(1)[0][0]

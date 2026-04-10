@@ -44,12 +44,12 @@ class LogisticRegression:
             loss = self.compute_loss(y, y_pred)
 
             # Gradient
-            dw = (1 / n_samples) * np.dot(X.T, (y_pred - y))
-            db = (1 / n_samples) * np.sum(y_pred - y)
+            grad_w = (1 / n_samples) * np.dot(X.T, (y_pred - y))
+            grad_b = (1 / n_samples) * np.sum(y_pred - y)
 
             # Update
-            self.w -= self.lr * dw
-            self.b -= self.lr * db
+            self.w -= self.lr * grad_w
+            self.b -= self.lr * grad_b
 
             # In log mỗi 100 epoch
             if epoch % 100 == 0:
