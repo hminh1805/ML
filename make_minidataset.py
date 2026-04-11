@@ -4,11 +4,13 @@ import numpy as np
 import json
 
 def generate_dataset_indices(source_dir, save_dir='data_splits', mode='mini', 
-                             num_train=4000, num_valid=1000, num_test=1000):
+                             num_train=4000, num_valid=1000, num_test=1000, seed=42,cat_ratio=0.5):
     """
     Hàm chia dataset chung cho cả mini và full.
     mode: Tiền tố để đặt tên file (ví dụ: 'mini' hoặc 'full')
     """
+    if mode == 'full':
+        num_train, num_valid, num_test = 16000, 4000, 4000
     print(f"Đang tạo bản đồ index cho {mode.upper()} dataset...")
     os.makedirs(save_dir, exist_ok=True)
     
@@ -22,8 +24,10 @@ def generate_dataset_indices(source_dir, save_dir='data_splits', mode='mini',
     random.shuffle(cats)
     random.shuffle(dogs)
     
+    c_train = int(num_train * cat_ratio)
+    d_train = num_train - c_train
+    
     # Chia đều số lượng yêu cầu cho 2 class (Mèo / Chó)
-    c_train, d_train = int(num_train // 2), int(num_train // 2)
     c_val, d_val = int(num_valid // 2), int(num_valid // 2)
     c_test, d_test = int(num_test // 2), int(num_test // 2)
     
