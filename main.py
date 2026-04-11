@@ -187,22 +187,6 @@ if __name__ == "__main__":
     # Tính số cột để truyền vào hàm
     n_features_cv = int(np.sqrt(X_cv.shape[1]))
 
-    # 2. KHAI BÁO TOP 3 ỨNG CỬ VIÊN (Chạy 20 cây)
-    candidates = [
-        # # {
-        # #     "name": "TOP 1 (Depth 10, Min 6)", 
-        # #     "model": MyRandomForest(n_trees=20, max_depth=10, min_samples_split=6, n_features=n_features_cv)
-        # # },
-        # {
-        #     "name": "TOP check (Depth 10, Min 5)", 
-        #     "model": MyRandomForest(n_trees=20, max_depth=10, min_samples_split=4, n_features=n_features_cv)
-        # }
-        # # {
-        # #     "name": "TOP 3 (Depth 10, Min 7)", 
-        # #     "model": MyRandomForest(n_trees=20, max_depth=10, min_samples_split=7, n_features=n_features_cv)
-        # # }
-    ]
-
     # 3. SETUP K-FOLD (5 phần, CÓ XÁO TRỘN DỮ LIỆU)
     kf = KFold(n_splits=4, shuffle=True, random_state=42)
 
@@ -211,40 +195,36 @@ if __name__ == "__main__":
     print("⚔️ KHỞI ĐỘNG VÒNG LẶP K-FOLD (5 LẦN THỬ LỬA)")
     print("="*50)
 
-    for depth in [9,10,11,15]:
-        for min_split in [4,5,6,7,10]:
-                candidates.append({
-                    "name": f"Depth {depth}, Min {min_split}", 
-                    "model": MyRandomForest(n_trees=100, max_depth=depth, min_samples_split=min_split, n_features=n_features_cv)
-                })
-    for cand in candidates:
-        print(f"\n--- Đang test Ứng cử viên: {cand['name']} ---")
-        fold_scores = []
-        t_scores = []
-        # Chạy 5 vòng K-Fold
-        for fold, (train_idx, val_idx) in enumerate(kf.split(X_cv)):
-            # Tách đề thi và sách giáo khoa theo chỉ số của K-Fold
-            X_kf_train, X_kf_val = X_cv[train_idx], X_cv[val_idx]
-            y_kf_train, y_kf_val = y_cv[train_idx], y_cv[val_idx]
-            start_time = time.time()
+    for depth in [10,15,16,17,18,20]:
+        for min_split in [5,4,3,2]:
+            print(f"\n--- Đang test Ứng cử viên: Depth {depth}, Min {min_split} ---")
+            fold_scores = []
+            t_scores = []
+            # Chạy 5 vòng K-Fold
+            for fold, (train_idx, val_idx) in enumerate(kf.split(X_cv)):
+                # Tách đề thi và sách giáo khoa theo chỉ số của K-Fold
+                X_kf_train, X_kf_val = X_cv[train_idx], X_cv[val_idx]
+                y_kf_train, y_kf_val = y_cv[train_idx], y_cv[val_idx]
+                start_time = time.time()
 
-            cand["model"].fit(X_kf_train, y_kf_train)
-            
-            # Bắt đầu thi
-            preds = cand["model"].predict(X_kf_val)
-            acc = np.mean(preds == y_kf_val) * 100
-            tim = time.time() - start_time
-            fold_scores.append(acc)
-            t_scores.append(tim)
-            print(f"  + Lần {fold+1}: {acc:.2f}% với {tim:.2f} giây")
-            
-        # Tính điểm trung bình môn
-        mean_score = np.mean(fold_scores)
-        time_score = np.mean(t_scores)
-        print(f"👉 ĐIỂM TRUNG BÌNH K-FOLD CỦA {cand['name']}: {mean_score:.2f}% và {time_score:.2f}s")
+                
+                model = MyRandomForest(n_trees=100, max_depth=depth, min_samples_split=min_split, n_features=n_features_cv)
+                model.fit(X_kf_train, y_kf_train)
+                # Bắt đầu thi
+                preds = model.predict(X_kf_val)
+                acc = np.mean(preds == y_kf_val) * 100
+                tim = time.time() - start_time
+                fold_scores.append(acc)
+                t_scores.append(tim)
+                print(f"  + Lần {fold+1}: {acc:.2f}% với {tim:.2f} giây")
+                
+            # Tính điểm trung bình môn
+            mean_score = np.mean(fold_scores)
+            time_score = np.mean(t_scores)
+            print(f"👉 ĐIỂM TRUNG BÌNH K-FOLD : {mean_score:.2f}% và {time_score:.2f}s")
 
     # print("\n🎉 HOÀN TẤT K-FOLD! SẾP HÃY CHỌN THẰNG CÓ ĐIỂM TRUNG BÌNH CAO NHẤT LÀM TRÙM CUỐI!")
     # import matplotlib.pyplot as plt
 
-    # plt.hist(X_train[:, 4], bins=10)
+    # plt.hist(X_train[:, 1], bins=50)
     # plt.show()
