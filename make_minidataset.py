@@ -20,7 +20,7 @@ def generate_dataset_indices(source_dir, save_dir='data_splits', mode='mini',
     cats = [(os.path.join('Cat', f), 0) for f in os.listdir(cat_source) if f.endswith(('.jpg', '.png'))]
     dogs = [(os.path.join('Dog', f), 1) for f in os.listdir(dog_source) if f.endswith(('.jpg', '.png'))]
     
-    random.seed(42) 
+    random.seed(seed) 
     random.shuffle(cats)
     random.shuffle(dogs)
     
