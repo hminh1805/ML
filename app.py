@@ -77,13 +77,21 @@ if models_dict:
                     total_time = time.time() - start_total_time
                     
                     st.markdown("---")
-                    result_class = prediction[0]
-                    if result_class == 1:
-                        st.success(f"## KẾT QUẢ: ĐÂY LÀ CON CHÓ!")
-                    else:
-                        st.info(f"## KẾT QUẢ: ĐÂY LÀ CON MÈO!")
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.image(image, caption="Ảnh đầu vào", use_container_width=True)
                         
-                    st.caption(f" Tổng thời gian xử lý và dự đoán: {total_time:.5f} giây")
+                    with col2:
+                        result_class = prediction[0]
+                        if result_class == 1:
+                            st.success("## 🐶 ĐÂY LÀ CHÓ!")
+                        else:
+                            st.info("## 🐱 ĐÂY LÀ MÈO!")
+                        
+                        # In thời gian theo kiểu Dashboard
+                        st.metric(label="⏱️ Tổng thời gian xử lý & dự đoán", value=f"{total_time:.4f} s")
+                        st.write(f"**Mô hình đang dùng:** {selected_model_name}")
                     
                 except Exception as e:
                     st.error(f"Gặp lỗi trong lúc dự đoán: {e}")
