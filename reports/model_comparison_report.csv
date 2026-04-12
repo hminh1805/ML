@@ -1,4 +1,4 @@
 Mô hình,Accuracy,Precision,Recall,F1-Score,T.gian Train (s),T.gian Đoán (s),RAM Tối đa (MB)
-Logistic Regression,0.7518,0.7501,0.755,0.7526,40.5255,0.0086,0.9504
-Support Vector Machine,0.724,0.7251,0.7215,0.7233,1726.2041,0.034,487.0055
-Random Forest,0.6733,0.6359,0.8105,0.7127,392.6517,9.2113,17.1817
+Logistic Regression,0.726,0.7269,0.724,0.7255,8.8147,0.002,0.2794
+Support Vector Machine,0.717,0.7333,0.682,0.7067,344.3749,0.0112,97.2485
+Random Forest,0.612,0.5745,0.864,0.6901,39.0016,2.0475,16.1576
