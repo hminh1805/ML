@@ -1,11 +1,11 @@
 import os
 from sklearn.decomposition import PCA
-import joblib # Thêm thư viện này để lưu object PCA
+import joblib # 
 import numpy as np
 
-def run_pca():
-    print(" ĐANG KHỞI CHẠY PCA (pca)...\n")
-    #load dữ liệu HOG đã lưu
+def run_pca(n_components=0.95):
+    print(" ĐANG KHỞI CHẠY PCA ...\n")
+    
     try:
         feature_train_hog = np.load('feature_train_hog.npy')
         feature_valid_hog = np.load('feature_valid_hog.npy')
@@ -16,8 +16,8 @@ def run_pca():
 
     print(f"Dữ liệu gốc: {feature_train_hog.shape[1]} chiều.")
 
-    #khởi tạo PCA với 95% thông tin
-    pca = PCA(n_components=0.95, random_state= 42)
+    #khởi tạo PCA với n thông tin
+    pca = PCA(n_components, random_state= 42)
 
     #nén dữ liệu Train
     feature_train_pca = pca.fit_transform(feature_train_hog)

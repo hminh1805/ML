@@ -6,7 +6,6 @@ from skimage.feature import hog
 
 #
 SOURCE_DIR = "PetImages" 
-INDEX_FILE = "data_splits/mini_dataset.json"
 IMG_SIZE = (128,64)  # Kích thước ảnh sau khi resize
 
 def get_hog_features(image_path):
@@ -40,15 +39,16 @@ def extract_features(set_name,data_list):
     return np.array(features), np.array(labels)
 
 
-def run_hog():
+def run_hog(type="mini"):
     print("🚀 ĐANG KHỞI CHẠY HOG (hog)...\n")
     
     # 1. Đọc "bản đồ" index
-    if not os.path.exists(INDEX_FILE):
-        print(f"Lỗi: Không tìm thấy file {INDEX_FILE}. Hãy chạy file make_dataset trước!")
+    index_path = f"data_splits/{type}_dataset.json"
+    if not os.path.exists(index_path):
+        print(f"Lỗi: Không tìm thấy file {index_path}. Hãy chạy file make_dataset trước!")
         return
 
-    with open(INDEX_FILE, 'r') as f:
+    with open(index_path, 'r') as f:
         index_data = json.load(f)
     
     # 2. Xử lý tập Train
@@ -75,7 +75,7 @@ def run_hog():
     np.save('label_valid.npy', label_valid_hog) # Lưu valid
     np.save('label_test.npy', label_test_hog)
 
-    print("\n💾 Đã lưu xong các file .npy gốc (Chưa qua PCA)!")
+    print("\n Đã lưu xong các file .npy gốc (Chưa qua PCA)!")
 
 if __name__ == "__main__":
     run_hog()
