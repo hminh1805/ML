@@ -15,7 +15,7 @@ import glob
 
 # Định nghĩa các biến toàn cục (Sửa lại đường dẫn cho khớp máy bạn)
 SOURCE_DIR = "PetImages"
-IMG_SIZE = (128, 64)
+IMG_SIZE = (128, 128)
 
 # Cài đặt font chữ và style chung cho đẹp
 sns.set_theme(style="whitegrid")
