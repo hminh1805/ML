@@ -6,7 +6,33 @@ from skimage.feature import hog
 
 #
 SOURCE_DIR = "PetImages" 
-IMG_SIZE = (128,64)  # Kích thước ảnh sau khi resize
+IMG_SIZE = (128,128)  # Kích thước ảnh sau khi resize
+
+def center_crop_resize(img, target_size=(128, 128)):
+    """Thu nhỏ cạnh ngắn nhất, sau đó cắt lấy phần trung tâm hình vuông"""
+    h, w = img.shape
+    
+    # BƯỚC 1: Tính toán tỷ lệ để thu nhỏ cạnh ngắn nhất về đúng 128
+    if h > w:
+        new_w = target_size[0]
+        new_h = int(h * (target_size[0] / w))
+    else:
+        new_h = target_size[1]
+        new_w = int(w * (target_size[1] / h))
+        
+    img_resized = cv2.resize(img, (new_w, new_h),interpolation=cv2.INTER_CUBIC)
+    
+    # BƯỚC 2: Ốp khung vuông vào chính giữa để cắt (Center Crop)
+    h_r, w_r = img_resized.shape
+    start_y = (h_r - target_size[1]) // 2
+    start_x = (w_r - target_size[0]) // 2
+    
+    # Cắt lấy mảng Numpy
+    cropped_img = img_resized[start_y : start_y + target_size[1], 
+                              start_x : start_x + target_size[0]]
+    
+    return cropped_img
+
 
 def get_hog_features(image_path):
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Đọc ảnh ở chế độ grayscale
@@ -14,7 +40,11 @@ def get_hog_features(image_path):
         print(f"Không thể đọc ảnh: {image_path}")
         return None
     
-    img_resized = cv2.resize(img, IMG_SIZE)
+    img_resized = center_crop_resize(img)
+    if img_resized.shape[0] < 16 or img_resized.shape[1] < 16:
+        print(f"🚨 Tóm được ảnh lỗi làm crash HOG: {image_path}")
+        print(f"👉 Kích thước thật lúc này: {img_resized.shape}")
+        return None # Trả về None để bỏ qua luôn, cứu chương trình khỏi bị văng!
     
     hog_features = hog(img_resized, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2), block_norm='L2-Hys', visualize=False)
     return hog_features
