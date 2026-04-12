@@ -3,7 +3,6 @@ dataset_full/
 minidataset/
 PetImages/
 /tmp/
-report/
 
 # 2. Bỏ qua các file Trọng số/Đặc trưng quá nặng
 *.npy
