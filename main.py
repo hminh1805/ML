@@ -17,7 +17,7 @@ import joblib
 
 
 
-def run_sklearn_benchmark(X_train, y_train, X_test, y_test):
+def run_sklearn_benchmark():
     from sklearn.linear_model import LogisticRegression
     from sklearn.svm import SVC
     from sklearn.ensemble import RandomForestClassifier
@@ -25,7 +25,7 @@ def run_sklearn_benchmark(X_train, y_train, X_test, y_test):
     print("="*60)
     print(" 🚀 BẮT ĐẦU ĐỐI CHUẨN VỚI THƯ VIỆN SCIKIT-LEARN")
     print("="*60)
-    
+    X_train, y_train,X_valid,y_valid, X_test, y_test = load_data('full')
     # Khởi tạo 3 mô hình Sklearn (Cấu hình ép cho giống với mô hình sếp tự code nhất)
     models = {
         "Sklearn Logistic Regression": LogisticRegression(max_iter=2000, n_jobs=-1),
@@ -70,9 +70,9 @@ def run_sklearn_benchmark(X_train, y_train, X_test, y_test):
 def load_data(mode='mini'):
     """Hàm phụ trợ để tải dữ liệu Numpy"""
     print("⏳ Đang tải dữ liệu đã qua xử lý (HOG + PCA)...")
-    generate_dataset_indices(source_dir='PetImages', mode=mode,seed=43)
-    run_hog(mode) 
-    run_pca(0.95)
+    # generate_dataset_indices(source_dir='PetImages', mode=mode,seed=43)
+    # run_hog(mode) 
+    # run_pca(0.95)
 
     try:
         X_train = np.load('feature_train_pca.npy')
@@ -169,4 +169,5 @@ def main():
     
 if __name__ == "__main__":
     #main_old()
-    main()
+    #main()
+    run_sklearn_benchmark()
