@@ -16,7 +16,7 @@ def calculate_GINI(arr):
     
     return gini
 
-
+    
 @njit
 def find_best_split(X, y, feat_idxs, n_bins, parent_gini):
     """Quét toàn bộ ma trận để tìm nhát chém tốt nhất"""
@@ -207,7 +207,7 @@ class MyRandomForest:
     
     def fit(self, X, y):
     
-        self.trees = Parallel(n_jobs=os.cpu_count()-1, prefer="processes")(
+        self.trees = Parallel(n_jobs=os.cpu_count()-1, prefer="processes")(                  # pyright: ignore[reportOptionalOperand]
             delayed(self.train_single_tree)(X, y, seed) for seed in range(self.n_trees) 
         )
         
